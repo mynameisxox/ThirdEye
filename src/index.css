@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #010101;
+  --color-secondary: #333;
+  --color-contrast: #eaeaea;
+  --color-accent: #FFBA00;
+
+  --color-text: #fff;
+  --color-text-secondary: #aaa;
+
+  --font-primary: 'Chakra Petch', sans-serif;
+}
+
+:root {
+    font-family: var(--font-primary);
+}
+
+.scrollbar-modern {
+  scrollbar-width: thin;            
+  scrollbar-color: #555 transparent; 
+}
+
+.scrollbar-modern::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-modern::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-modern::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 3px;
+  border: 1px solid transparent; 
+}
+
+.scrollbar-modern::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}
+
+/* MapLine popup style (when clicking on a plane for example) */
+.mil-popup .maplibregl-popup-content {
+  background: transparent;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.mil-popup .maplibregl-popup-tip {
+  border-top-color: #0b0b0c;
+}
