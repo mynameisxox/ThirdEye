@@ -7,9 +7,9 @@ The goal of the project is to explore **how far LIVE OSINT monitoring can be pus
 ThirdEye aggregates multiple real-time data sources and displays them through a **global map interface and modular analytical tools**.
 
 <p align="center">
-    <img src="https://freeimage.host/i/qo1Iw9S" width="32%" />
-    <img src="https://freeimage.host/i/qo1ION9" width="32%" />
-    <img src="https://freeimage.host/i/qo1INA7" width="32%" />
+  <img src="https://i.imgur.com/xbdv5UC.png" width="32%" />
+  <img src="https://i.imgur.com/BAUy5zW.png" width="32%" />
+  <img src="https://i.imgur.com/Hzk0SV7.png" width="32%" />
 </p>
 
 ---
