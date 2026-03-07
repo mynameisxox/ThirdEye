@@ -20,12 +20,10 @@ The idea behind ThirdEye is to build a **real-time geopolitical monitoring dashb
 
 The platform focuses on:
 
-- Live OSINT data aggregation
-- Geopolitical signal detection
-- Real-time visualization
-- Modular analysis tools
-
-This project is mainly an **experimental playground for OSINT pipelines and real-time monitoring systems**.
+- **Live OSINT data aggregation** (News, Air traffic, Naval movements)
+- **Geopolitical signal detection** via sentiment analysis
+- **Real-time visualization** on a 3D/2D interactive globe
+- **Modular analysis tools** for rapid situational awareness
 
 ---
 
@@ -51,32 +49,75 @@ I'm still not satisfied with the method I am using, but I made multiple versions
 
 ---
 
-# Features
+# Database Schema (PostgreSQL)
 
-## Global Map Visualization
+The system relies on a PostgreSQL database to store and correlate real-time feeds.
 
-The main interface displays a **world map with real-time geopolitical signals**.
+### Tables Overview
 
-Current layers include:
+- `articles`: Stores GDELT events, themes, and individual sentiment scores.
+- `final_index`: Stores the calculated tension results per country for historical tracking.
+- `news_feed`: Real-time headlines from 25+ international RSS sources.
 
-- **Country tension indexes**
-- **Military aircraft activity**
+### Technical Definitions
 
-Users can visualize tension intensity geographically and quickly identify regions experiencing increased geopolitical pressure.
+```sql
+-- Main articles table (GDELT data)
+Table "public.articles"
+ Column     | Type                        | Nullable | Default
+------------+-----------------------------+----------+--------------------------------------
+ id         | integer                     | not null | nextval('articles_id_seq'::regclass)
+ url        | text                        | not null |
+ title      | text                        |          |
+ source     | text                        |          |
+ country    | text                        | not null |
+ avg_tone   | numeric(5,2)                |          |
+ themes     | text                        |          |
+ fetched_at | timestamp without time zone | not null |
+Indexes: "articles_pkey" PRIMARY KEY, "idx_articles_country", "idx_articles_fetched_at"
+
+-- Processed tension index
+Table "public.final_index"
+ Column    | Type                        | Nullable | Default
+-----------+-----------------------------+----------+-----------------------------------------
+ id        | integer                     | not null | nextval('final_index_id_seq'::regclass)
+ country   | text                        | not null |
+ index     | numeric(5,2)                | not null |
+ timestamp | timestamp without time zone | not null |
+
+-- International news feed
+Table "public.news_feed"
+ Column       | Type                     | Nullable | Default
+--------------+--------------------------+----------+---------------------------------------
+ id           | integer                  | not null | nextval('news_feed_id_seq'::regclass)
+ title        | text                     | not null |
+ url          | text                     | not null |
+ source       | text                     |          |
+ published_at | timestamp with time zone |          |
+```
 
 ---
 
-## News Tracker
+# Features & Modules
 
-The **News Tracker** continuously aggregates headlines from **25+ international news feeds**.
+### Global Map Visualization
 
-The feed refreshes **every 2 minutes** and provides a near real-time overview of global events.
+- **Tension Layer**: Dynamic choropleth map based on the calculated index.
+- **Military Aircraft**: Real-time tracking of military assets (via ADS-B).
+- **Naval Vessels**: Live monitoring of naval movements and strategic ships (via AIS).
+- **HUD Interface**: Custom popups displaying technical data (MMSI, ICAO, Heading, Speed).
 
-This module helps users quickly understand **what is currently happening around the world** without manually monitoring multiple sources.
+### News Tracker
 
----
+- Aggregates **50+ international news feeds** every 2 minutes.
+- **Tone Integration**: Real-time sentiment display on GDELT news items to identify critical alerts immediately.
 
-## Time-Based Filtering
+### Monitoring Center
+
+- **Live TV**: Direct streams from France 24, Sky News, Bloomberg, Al Jazeera, and more.
+- **World Cams**: Live public camera feeds from strategic locations (Ukraine, Middle East, etc.) with search and focus capabilities.
+
+### Time-Based Filtering
 
 Several modules allow filtering data by **time period**.
 
@@ -91,109 +132,17 @@ For example, on the map users can display **tension indexes calculated over diff
 
 ---
 
-# Modules
+# Coming Soon ?
 
-ThirdEye uses a **modular system**, allowing new capabilities to be added without affecting the rest of the platform.
-
----
-
-## Live TV
-
-The **LIVE TV module** provides continuous news streams from major international broadcasters.
-
-Available channels:
-
-```javascript
-const CHANNELS = [
-  { id: "france24", label: "France 24", flag: "🇫🇷", videoId: "l8PMl7tUDIE" },
-  { id: "skynews", label: "Sky News", flag: "🇬🇧", videoId: "YDvsBbKfLPA" },
-  { id: "bloomberg", label: "Bloomberg", flag: "🇺🇸", videoId: "iEpJwprxDdk" },
-  { id: "dw", label: "DW News", flag: "🇩🇪", videoId: "LuKwFajn37U" },
-  { id: "aljazeera", label: "Al Jazeera", flag: "🇶🇦", videoId: "gCNeDWCI0vo" },
-  { id: "euronews", label: "Euronews", flag: "🇪🇺", videoId: "pykpO5kQJ98" },
-];
-```
-
-This allows users to **monitor live news coverage directly inside the dashboard**.
-
----
-
-## Stats
-
-The **Stats module** provides analytical views of the tension index.
-
-Current features include:
-
-- **Top 10 countries by tension index**
-- **Country-specific tension history**
-- **Time period filtering**
-
----
-
-# Coming Soon
-
-Several features are planned.
-
----
-
-## Points of Interest
-
-Add strategic **Points of Interest (POI)** on the map to provide additional geopolitical context.
-
-These locations will include:
-
-- **Embassies and diplomatic missions**
-- **Military bases**
-- **Nuclear facilities**
-- **Strategic infrastructure**
-- Other geopolitically relevant sites
-
----
-
-## Alerts
-
-Custom alerts based on:
-
-- Specific **tension thresholds**
-- **Keywords detected in news feeds**
-- Rapid **changes in country tension index**
-
-This would allow users to receive notifications when important events occur.
-
----
-
-## Satellite
-
-Integration of **satellite imagery sources** to visualize recent satellite captures over regions of interest.
-
-Possible future capabilities:
-
-- Satellite image overlays
-- Rapid monitoring of conflict zones
-- Satellite imagery timelines
-
----
-
-## Camera
-
-A module dedicated to **live public camera feeds** around the world.
-
-Examples:
-
-- City surveillance cameras
-- Harbor cameras
-- Border crossing cameras
-- Strategic infrastructure viewpoints
+- **Points of Interest (POI)**: Strategic mapping of military bases, nuclear facilities, and embassies.
+- **Smart Alerts**: Notifications triggered by rapid tension index spikes or specific keyword detection.
 
 ---
 
 # Disclaimer
 
-ThirdEye only uses **publicly available OSINT data sources**.
+ThirdEye only uses **publicly available OSINT data sources**. This project is a personal project intended for research, data visualization experiments, and geopolitical exploration.
 
-The project is intended for:
+```
 
-- Research
-- Learning
-- Data visualization experiments
-- OSINT exploration
+```
