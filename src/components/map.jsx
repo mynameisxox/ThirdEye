@@ -5,7 +5,7 @@ import { feature } from "topojson-client";
 import countries10 from "../data/countries-10m.json";
 // eslint-disable-next-line no-unused-vars
 import { iso3ToName, nameToIso3 } from "../utils/iso3Converter.jsx";
-import { getAircraftName, filterMilitary, createAircraftPopupHTML } from "../utils/aircraftUtils.jsx";
+import { getAircraftName, filterMilitary, createAircraftPopupHTML, PLANE_SVG } from "../utils/aircraftUtils.jsx";
 import { SHIP_SVG, svgToDataUrl as shipSvgToDataUrl, createShipPopupHTML, filterNavalVessels } from "../utils/navalUtils.jsx";
 
 const FILL_OPACITY = 0.4;
@@ -13,24 +13,6 @@ const MIL_API = "http://localhost:8000/proxy/military";
 const NAVAL_API = "http://localhost:8000/proxy/naval";
 const MIL_REFRESH_MS = 15_000;
 const NAVAL_REFRESH_MS = 60_000;
-
-const PLANE_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <defs>
-    <filter id="plane-glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-      <feMerge>
-        <feMergeNode in="coloredBlur" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-  </defs>
-  <path
-    d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"
-    fill="#d3d3d3"
-    filter="url(#plane-glow)"
-  />
-</svg>`;
 
 function svgToDataUrl(svg) {
     return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
