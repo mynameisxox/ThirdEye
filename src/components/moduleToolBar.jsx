@@ -1,47 +1,54 @@
 import { useState } from "react";
-import { Tv, BarChart2, Bell, Satellite, View } from "lucide-react";
+import { Tv, BarChart2, PlaneTakeoff, Anchor, Video, Bell } from "lucide-react";
 import LiveModule from "./modules/liveModule.jsx";
 import StatsModule from "./modules/statsModule.jsx";
-import { ComingSoon } from "./modules/comingSoonModule.jsx";
+import CameraModule from "./modules/cameraModule.jsx";
+import ComingSoon from "./modules/comingSoonModule.jsx";
+
+const OVERLAY_MODULES = new Set(["live", "stats", "camera", "alerts"]);
+const TOGGLE_MODULES = new Set(["aircraft", "naval"]);
 
 const MODULES = [
-    { id: "live",  icon: Tv,        label: "LIVE TV" },
-    { id: "stats", icon: BarChart2, label: "STATS" },
-    { id: "alerts",icon: Bell,      label: "ALERTS" },
-    { id: "satellite",icon: Satellite,      label: "SATELLITE" },
-    { id: "camera",icon: View,      label: "CAMERA" },
+    { id: "live",     icon: Tv,           label: "LIVE TV"  },
+    { id: "stats",    icon: BarChart2,    label: "STATS"    },
+    { id: "aircraft", icon: PlaneTakeoff, label: "AIRCRAFT" },
+    { id: "naval",    icon: Anchor,       label: "NAVAL"    },
+    { id: "camera",   icon: Video,        label: "CAMERA"   },
+    { id: "alerts",   icon: Bell,        label: "ALERTS"   },
 ];
 
-export default function ModuleToolbar({ selectedCountry }) {
-    const [activeModules, setActiveModules] = useState(() => new Set());
+export default function ModuleToolbar({ selectedCountry, onAircraftToggle, onNavalToggle, navalLoading }) {
+    const [activeOverlay, setActiveOverlay] = useState(null);
+    const [toggles, setToggles] = useState({ aircraft: false, naval: false });
 
-    const toggle = (id) => {
-        setActiveModules(prev => {
-            const next = new Set(prev);
-            if (next.has(id)) {
-                next.delete(id);
-            } else {
-                next.add(id);
-            }
-            return next;
-        });
+    const handle = (id) => {
+        if (TOGGLE_MODULES.has(id)) {
+            const next = !toggles[id];
+            setToggles(prev => ({ ...prev, [id]: next }));
+            if (id === "aircraft") onAircraftToggle?.(next);
+            if (id === "naval")    onNavalToggle?.(next);
+        } else {
+            setActiveOverlay(prev => prev === id ? null : id);
+        }
     };
+
+    const isActive = (id) => TOGGLE_MODULES.has(id) ? toggles[id] : activeOverlay === id;
 
     return (
         <>
-            {/* Toolbar */}
+            {/* VERTICAL TOOLBAR */}
             <div className="absolute left-4 top-1/2 -translate-y-1/2 z-30 flex flex-col gap-2">
                 {MODULES.map(({ id, icon: Icon, label }) => {
-                    const isActive = activeModules.has(id);
+                    const active = isActive(id);
                     return (
                         <button
                             key={id}
-                            onClick={() => toggle(id)}
+                            onClick={() => handle(id)}
                             title={label}
                             className={`
                                 group relative flex items-center justify-center
                                 w-9 h-9 rounded-lg border transition-all duration-200 select-none
-                                ${isActive
+                                ${active
                                     ? "bg-amber-500/20 border-amber-500/60 text-amber-400 shadow-lg shadow-amber-500/10"
                                     : "bg-black/40 border-white/10 text-white/30 hover:border-white/25 hover:text-white/60 hover:bg-white/5"
                                 }
@@ -57,32 +64,34 @@ export default function ModuleToolbar({ selectedCountry }) {
                             ">
                                 {label}
                             </span>
-                            {isActive && (
+                            {/* Loading spinner for naval module */}
+                            {id === "naval" && active && navalLoading ? (
+                                <span className="absolute -right-1 -top-1 w-2 h-2">
+                                    <span className="block w-2 h-2 rounded-full border border-amber-400 border-t-transparent animate-spin" />
+                                </span>
+                            ) : active ? (
                                 <span className="absolute -right-1 -top-1 w-2 h-2 rounded-full bg-amber-400 shadow shadow-amber-400/50" />
-                            )}
+                            ) : null}
                         </button>
                     );
                 })}
             </div>
 
-            {/* Overlays */}
-            {activeModules.has("live") && (
-                <LiveModule onClose={() => toggle("live")} />
+            {/* OVERLAYS */}
+            {activeOverlay === "live" && (
+                <LiveModule onClose={() => setActiveOverlay(null)} />
             )}
-            {activeModules.has("stats") && (
+            {activeOverlay === "stats" && (
                 <StatsModule
                     selectedCountry={selectedCountry}
-                    onClose={() => toggle("stats")}
+                    onClose={() => setActiveOverlay(null)}
                 />
             )}
-            {activeModules.has("alerts") && (
-                <ComingSoon label="ALERTS" onClose={() => toggle("alerts")} />
+            {activeOverlay === "camera" && (
+                <CameraModule onClose={() => setActiveOverlay(null)} />
             )}
-            {activeModules.has("satellite") && (
-                <ComingSoon label="SATELLITE" onClose={() => toggle("satellite")} />
-            )}
-            {activeModules.has("camera") && (
-                <ComingSoon label="CAMERA" onClose={() => toggle("camera")} />
+            {activeOverlay === "alerts" && (
+                <ComingSoon label="ALERTS" onClose={() => setActiveOverlay(null)} />
             )}
         </>
     );

@@ -557,7 +557,7 @@
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 12,
-      "minzoom": 4,
+      "minzoom": 3,
       "filter": [
         "all",
         [

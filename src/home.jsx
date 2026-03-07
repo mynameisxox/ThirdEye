@@ -7,24 +7,33 @@ import ModuleToolbar from './components/moduleToolBar.jsx';
 
 const MIN_NEWS_WIDTH     = 240;
 const MAX_NEWS_WIDTH     = 560;
-const DEFAULT_NEWS_WIDTH = 320;
+const DEFAULT_NEWS_WIDTH = 440;
 
 export default function Home() {
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [period, setPeriod]                   = useState("1d");
     const [tick, setTick]                       = useState(0);
     const [newsWidth, setNewsWidth]             = useState(DEFAULT_NEWS_WIDTH);
-    const dragging   = useRef(false);
-    const startX     = useRef(0);
-    const startW     = useRef(DEFAULT_NEWS_WIDTH);
+    const [aircraftActive, setAircraftActive]   = useState(false);
+    const [navalActive, setNavalActive]         = useState(false);
+    const [navalLoading, setNavalLoading]       = useState(false);
+    const handleAircraftToggle = useCallback((v) => {
+        setAircraftActive(v);
+    }, []);
 
-    // Refresh map indexes every 15 minutes
+    const handleNavalToggle = useCallback((v) => {
+        setNavalActive(v);
+        if (!v) setNavalLoading(false);
+    }, []);
+    const dragging = useRef(false);
+    const startX   = useRef(0);
+    const startW   = useRef(DEFAULT_NEWS_WIDTH);
+
     useEffect(() => {
         const interval = setInterval(() => setTick(t => t + 1), 15 * 60 * 1000);
         return () => clearInterval(interval);
     }, []);
 
-    // Resize news panel
     const onMouseDown = useCallback((e) => {
         dragging.current = true;
         startX.current   = e.clientX;
@@ -57,28 +66,31 @@ export default function Home() {
         <div className="h-screen w-screen flex flex-col bg-primary overflow-hidden">
             <Header />
             <main className="flex flex-1 overflow-hidden">
-
                 {/* MAP AREA */}
                 <div className="relative flex-1 overflow-hidden">
                     <MapComponent
                         onCountryClick={setSelectedCountry}
                         period={period}
                         tick={tick}
+                        aircraftActive={aircraftActive}
+                        navalActive={navalActive}
+                        onNavalLoading={setNavalLoading}
                     />
-
-                    <ModuleToolbar selectedCountry={selectedCountry} />
-
+                    <ModuleToolbar
+                        selectedCountry={selectedCountry}
+                        onAircraftToggle={handleAircraftToggle}
+                        onNavalToggle={handleNavalToggle}
+                        navalLoading={navalLoading}
+                    />
                     <div className="absolute bottom-4 left-4">
                         <PeriodSelector period={period} onChange={setPeriod} />
                     </div>
                 </div>
-
                 {/* DRAG HANDLE */}
                 <div
                     onMouseDown={onMouseDown}
                     className="w-1 shrink-0 bg-white/5 hover:bg-amber-500/40 cursor-col-resize transition-colors duration-150 z-30"
                 />
-
                 {/* NEWS PANEL */}
                 <div style={{ width: newsWidth }} className="shrink-0 overflow-hidden">
                     <NewsTracker
@@ -86,7 +98,6 @@ export default function Home() {
                         onClearCountry={() => setSelectedCountry(null)}
                     />
                 </div>
-
             </main>
         </div>
     );

@@ -74,6 +74,59 @@ const MILITARY_AIRCRAFT = {
     RQ170: "Lockheed Martin RQ-170 Sentinel",
 };
 
+
+export const PLANE_SVG = `
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <filter id="plane-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+      <feMerge>
+        <feMergeNode in="coloredBlur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <path
+    d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"
+    fill="#d3d3d3"
+    filter="url(#plane-glow)"
+  />
+</svg>`;
+
+export function createAircraftPopupHTML(p) {
+    {/* Returns popup content */ }
+
+    return `
+  <div class="font-mono text-[11px] bg-[#0b0b0c] text-gray-300 p-3 rounded-lg border border-white/5 min-w-[180px]">
+
+    <div class="text-amber-500 font-bold text-xs tracking-widest mb-0.5">
+      ${p.callsign || "UNKNOWN"}
+    </div>
+
+    <div class="text-[10px] text-gray-400 mb-2 tracking-wide">
+      ${p.aircraft}
+    </div>
+
+    <div class="grid grid-cols-[40px_1fr] gap-y-1 text-[10px] tracking-wider">
+
+      <span class="text-gray-500">HEX</span>
+      <span class="text-gray-300">${p.icao}</span>
+
+      <span class="text-gray-500">TYPE</span>
+      <span class="text-gray-300">${p.type}</span>
+
+      <span class="text-gray-500">ALT</span>
+      <span class="text-gray-300">${p.altitude ? Number(p.altitude).toLocaleString() + " ft" : "—"}</span>
+
+      <span class="text-gray-500">SPD</span>
+      <span class="text-gray-300">${p.speed ? p.speed + " kt" : "—"}</span>
+
+    </div>
+
+  </div>
+  `;
+}
+
 export const MILITARY_TYPES = new Set(Object.keys(MILITARY_AIRCRAFT));
 
 export function isMilitaryType(type) {

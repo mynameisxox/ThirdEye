@@ -1,6 +1,6 @@
 import {X } from "lucide-react";
 
-export function ComingSoon({ label, onClose }) {
+export default function ComingSoon({ label, onClose }) {
     return (
         <div className="absolute top-1/2 left-15 z-40 w-80 bg-black/80 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden shadow-2xl">
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
