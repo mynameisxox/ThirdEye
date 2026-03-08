@@ -8,12 +8,13 @@ import os
 import websockets
 import psycopg2
 from contextlib import asynccontextmanager
-from app.scheduler import start_scheduler
+from app.scheduler import start_scheduler, stop_scheduler
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     start_scheduler()
     yield
+    stop_scheduler()
 
 app = FastAPI(lifespan=lifespan)
 

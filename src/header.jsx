@@ -13,7 +13,7 @@ export default function Header() {
     const timeString = time.toLocaleTimeString();
 
     return (
-        <header className="absolute top-0 right-0 py-2 px-4 w-full z-50 select-none">
+        <header className="absolute top-0 right-0 py-2 px-4 w-full z-50 select-none lg:flex hidden">
             <div className="max-w-6xl flex items-center gap-2 justify-between">
                 <div className="flex items-center gap-2 
                 tracking-widest uppercase
