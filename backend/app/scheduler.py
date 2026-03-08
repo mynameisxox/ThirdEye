@@ -24,5 +24,5 @@ def start_scheduler():
 def stop_scheduler():
     global _scheduler
     if _scheduler and _scheduler.running:
-        _scheduler.shutdown(wait=False, timeout=15)
+        _scheduler.shutdown(wait=False)
         print("Scheduler stopped.")
