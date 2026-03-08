@@ -142,7 +142,3 @@ For example, on the map users can display **tension indexes calculated over diff
 # Disclaimer
 
 ThirdEye only uses **publicly available OSINT data sources**. This project is a personal project intended for research, data visualization experiments, and geopolitical exploration.
-
-```
-
-```
