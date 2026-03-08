@@ -3,7 +3,7 @@ import { nameToIso3 } from "../utils/iso3Converter.jsx";
 import { Hexagon, X, Activity, Filter, ChevronDown, Check } from "lucide-react";
 import GDELTHelp from "./gdeltHelp.jsx";
 
-const API_URL = "http://localhost:8000";
+const API_URL = "http://localhost:2209";
 
 const GDELT_THEMES = [
     "WAR", "TERROR", "ATTACK", "KILLING",

@@ -9,8 +9,8 @@ import { getAircraftName, filterMilitary, createAircraftPopupHTML, PLANE_SVG } f
 import { SHIP_SVG, svgToDataUrl as shipSvgToDataUrl, createShipPopupHTML, filterNavalVessels } from "../utils/navalUtils.jsx";
 
 const FILL_OPACITY = 0.4;
-const MIL_API = "http://localhost:8000/proxy/military";
-const NAVAL_API = "http://localhost:8000/proxy/naval";
+const MIL_API = "http://localhost:2209/proxy/military";
+const NAVAL_API = "http://localhost:2209/proxy/naval";
 const MIL_REFRESH_MS = 15_000;
 const NAVAL_REFRESH_MS = 60_000;
 
