@@ -46,9 +46,9 @@ export default function NewsTracker({ selectedCountry, onClearCountry }) {
     const fetchNews = useCallback(async () => {
         setLoading(true);
         try {
-            let url = `${API_URL}/news/feed?limit=200`;
+            let url = `${API_URL}/news/feed?limit=500`;
             if (showGdelt) {
-                url = `${API_URL}/news/gdelt?limit=200`;
+                url = `${API_URL}/news/gdelt?limit=500`;
                 if (selectedTheme) url += `&theme=${selectedTheme}`;
             }
             const res = await fetch(url);

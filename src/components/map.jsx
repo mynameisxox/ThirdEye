@@ -154,7 +154,7 @@ export default function MapComponent({ onCountryClick, period, tick, aircraftAct
             if (!map || !worldGeoJSON) return;
             let countryIndexes = {};
             try {
-                const res = await fetch(`http://localhost:8000/final_index/average?period=${periodRef.current}`);
+                const res = await fetch(`http://localhost:2209/final_index/average?period=${periodRef.current}`);
                 countryIndexes = await res.json();
             } catch (e) {
                 console.error("Failed to fetch country indexes:", e);

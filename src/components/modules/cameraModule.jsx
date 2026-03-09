@@ -2,10 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { X, Maximize2, Minimize2, GripHorizontal, Search, Camera } from "lucide-react";
 
 const CAMERAS = [
-    {id: "ukraine1", label: "Ukraine", location: "...", country: "Ukraine", flag: "🇺🇦", videoId: "R-qCsZ1obbc"},
+    {id: "ukraine1", label: "Ukraine", location: "Donetsk/Sumy/Kyiv/Kharkiv", country: "Ukraine", flag: "🇺🇦", videoId: "V_0az0lQ6Ww"},
     { id: "middleeast-iran-israel-syria", label:"Middle East",location:  "Iran/Israel/Syria",flag: "🇮🇷 🇮🇱 🇸🇾", videoId: "gmtlJ_m2r5A" },
     {id: "ukraine2", label: "Ukraine", location: "Kharkiv/Donetsk/Kyiv/Sumy", country: "Ukraine", flag: "🇺🇦", videoId: "11mdFpvFvqU"},
-    { id: "middleeast-lebanon-israel-jerusalem", label:"Middle East",location: "Beirut/Tel Aviv/Jerusalem", country: "Lebanon/Israel/Jerusalem", flag: "🇱🇧 🇮🇱", videoId: "i2lzz1epI44" },
+    { id: "middleeast-lebanon-israel-jerusalem", label:"Middle East",location: "Tel Aviv", country: "Israel", flag: "🇱🇧 🇮🇱", videoId: "JkPGuFsbk94" },
     { id: "ukraine3", label: "Ukraine", location:"Kyiv/Odessa/Kharkiv/Kramatorsk/Sloviansk/Donetsk/Dnipro",country:"Ukraine", flag: "🇺🇦",  videoId: "e2gC37ILQmk" },
     { id: "middleeast-iran-israel-lebanon", label:"Middle East",location:  "Iran/Israel/Lebanon",flag: "🇱🇧 🇮🇷 🇮🇱", videoId: "4E-iFtUM2kk" },
     //{ id: "iss", label: "Space station", location: "Orbite", country: "Space", flag: "🌍", videoId: "vytmBNhc9ig" },
