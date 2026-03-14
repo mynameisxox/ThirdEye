@@ -186,7 +186,7 @@ export default function CameraModule({ onClose }) {
                         <iframe
                             src={`https://www.youtube.com/embed/${focusedCamera.videoId}?autoplay=1&mute=0&live=1`}
                             className="w-full h-full"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
                         />
                         <div className="absolute top-4 left-4 px-3 py-1.5 bg-black/60 backdrop-blur-md border border-white/10 rounded-md flex flex-col pointer-events-none">
@@ -210,7 +210,7 @@ export default function CameraModule({ onClose }) {
                                     <iframe
                                         src={`https://www.youtube.com/embed/${camera.videoId}?autoplay=1&mute=1&controls=0`}
                                         className="w-full h-[140%] -top-[20%] relative pointer-events-none"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                         allowFullScreen
                                     />
 

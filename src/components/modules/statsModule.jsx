@@ -7,7 +7,7 @@ import {
 import { nameToIso3 } from "../../utils/iso3Converter";
 
 
-const API_URL = "http://localhost:8000";
+const API_URL = "http://10.0.1.248:2220";
 const DEFAULT_POS = { x: 64, y: 16 };
 
 const PERIODS_TOP = ["15min", "1h", "1d", "1w"];

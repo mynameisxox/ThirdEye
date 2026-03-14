@@ -163,7 +163,7 @@ export default function LiveModule({ onClose }) {
                         <iframe
                             src={`https://www.youtube.com/embed/${focusedChannel.videoId}?autoplay=1&mute=0`}
                             className="w-full h-full"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
                         />
                     </div>
@@ -178,7 +178,7 @@ export default function LiveModule({ onClose }) {
                                 <iframe
                                     src={`https://www.youtube.com/embed/${channel.videoId}?autoplay=1&mute=1`}
                                     className="w-full h-full pointer-events-none"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                     allowFullScreen
                                 />
 

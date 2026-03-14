@@ -9,8 +9,9 @@ import { getAircraftName, filterMilitary, createAircraftPopupHTML, PLANE_SVG } f
 import { SHIP_SVG, svgToDataUrl as shipSvgToDataUrl, createShipPopupHTML, filterNavalVessels } from "../utils/navalUtils.jsx";
 
 const FILL_OPACITY = 0.4;
-const MIL_API = "http://localhost:2209/proxy/military";
-const NAVAL_API = "http://localhost:2209/proxy/naval";
+const API_URL = import.meta.env.VITE_API_URL
+const MIL_API = `${API_URL}/proxy/military`;
+const NAVAL_API = `${API_URL}/proxy/naval`;
 const MIL_REFRESH_MS = 15_000;
 const NAVAL_REFRESH_MS = 60_000;
 
@@ -154,7 +155,7 @@ export default function MapComponent({ onCountryClick, period, tick, aircraftAct
             if (!map || !worldGeoJSON) return;
             let countryIndexes = {};
             try {
-                const res = await fetch(`http://localhost:2209/final_index/average?period=${periodRef.current}`);
+                const res = await fetch(`${API_URL}/final_index/average?period=${periodRef.current}`);
                 countryIndexes = await res.json();
             } catch (e) {
                 console.error("Failed to fetch country indexes:", e);
