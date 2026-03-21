@@ -140,7 +140,6 @@ def get_gdelt_news(theme: str = None, limit: int = 200):
     conn = get_connection()
     cursor = conn.cursor()
     try:
-        # 1. Ajout de 'avg_tone' dans le SELECT
         query = """
             SELECT id, title, url, source, fetched_at, themes, avg_tone
             FROM articles
@@ -168,7 +167,7 @@ def get_gdelt_news(theme: str = None, limit: int = 200):
                 "source": r[3] or "GDELT",
                 "published_at": r[4].isoformat() if r[4] else None, 
                 "themes": r[5],
-                "avg_tone": round(float(r[6]), 2) if r[6] is not None else None # 2. Ajout ici
+                "avg_tone": round(float(r[6]), 2) if r[6] is not None else None
             }
             for r in rows
         ]
